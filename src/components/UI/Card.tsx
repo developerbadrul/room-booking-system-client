@@ -24,7 +24,7 @@ const Card: React.FC<CardProps> = ({ room }) => {
                 <p className="text-gray-500">Amenities: {room.amenities.join(", ")}</p>
             </div>
             <Link
-                to={`/room-details/${room._id}`}
+                to={`/meeting-room/${room._id}`}
                 className="mt-4 w-full text-center inline-block rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
             >
                 See Details

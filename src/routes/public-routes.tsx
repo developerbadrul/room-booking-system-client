@@ -18,7 +18,7 @@ const publicRoutes = [
         element: <Contact />
     },
     {
-        path: "meeting-room",
+        path: "meeting-room/:roomId",
         element: <MeetingRoom />
     },
 ]
