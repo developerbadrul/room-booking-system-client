@@ -1,5 +1,6 @@
 export interface IRoom {
     _id: string;
+    image?: string;
     name: string;
     roomNo: number;
     floorNo: number;
@@ -10,4 +11,5 @@ export interface IRoom {
     createdAt: string;
     updatedAt: string;
     __v: number;
+    rating?: number;
 }

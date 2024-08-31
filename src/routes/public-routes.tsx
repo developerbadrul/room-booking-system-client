@@ -1,4 +1,5 @@
 import About from "../Pages/About";
+import AllMeetingRooms from "../Pages/AllMeetingRooms";
 import Contact from "../Pages/Contact";
 import Home from "../Pages/Home";
 import MeetingRoom from "../Pages/MeetingRoom";
@@ -20,6 +21,10 @@ const publicRoutes = [
     {
         path: "meeting-room/:roomId",
         element: <MeetingRoom />
+    },
+    {
+        path: "meeting-rooms",
+        element: <AllMeetingRooms />
     },
 ]
 

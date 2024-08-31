@@ -109,9 +109,9 @@ export const Navbar: React.FC = () => {
                         </Link>
                         <div className="hidden md:flex md:gap-x-6 font-semibold">
                             <NavLink href="/">Home</NavLink>
-                            <NavLink href="/products">Products</NavLink>
-                            <NavLink href="/about-us">About Us</NavLink>
-                            <NavLink href="/contact-us">Contact Us</NavLink>
+                            <NavLink href="/meeting-rooms">Meeting Rooms</NavLink>
+                            <NavLink href="/about">About Us</NavLink>
+                            <NavLink href="/contact">Contact Us</NavLink>
                             <NavLink href="/dashboard">Dashboard</NavLink>
 
                         </div>
