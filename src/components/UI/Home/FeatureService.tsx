@@ -1,4 +1,4 @@
-import { useGetAllRoomsQuery } from "../../../redux/features/room/roomSlice";
+import { useGetAllRoomsQuery } from "../../../redux/features/room/roomApi";
 import { IRoom } from "../../../types";
 import Card from "../Card";
 import Loading from "../Loading";

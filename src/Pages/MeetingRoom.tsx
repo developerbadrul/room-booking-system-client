@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useGetSingleRoomQuery } from "../redux/features/room/roomSlice";
+import { useGetSingleRoomQuery } from "../redux/features/room/roomApi";
 import { QuestionMarkCircleIcon, ShieldCheckIcon } from "@heroicons/react/20/solid";
 import Loading from "../components/UI/Loading";
 

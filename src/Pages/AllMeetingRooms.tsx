@@ -1,6 +1,6 @@
 import Loading from "../components/UI/Loading";
 import RoomCard from "../components/UI/RoomCard";
-import { useGetAllRoomsQuery } from "../redux/features/room/roomSlice";
+import { useGetAllRoomsQuery } from "../redux/features/room/roomApi";
 import { IRoom } from "../types";
 
 const AllMeetingRooms = () => {

@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
-
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useRegisterMutation } from '../redux/features/auth/authApi';
+import Error from '../components/UI/Error';
+import Alert from '../components/UI/Alert';
 
 interface IFormData {
     name: string;
@@ -22,6 +24,13 @@ interface IErrors {
 }
 
 const Signup = () => {
+    const [register, { data, isLoading, error }] = useRegisterMutation();
+    const [showSuccess, setShowSuccess] = useState(false);
+    const navigate = useNavigate();
+
+    console.log("error", error);
+
+
     const [formData, setFormData] = useState<IFormData>({
         name: '',
         email: '',
@@ -42,7 +51,7 @@ const Signup = () => {
         if (formData.password.length < 6) errors.password = "Password must be at least 6 characters long.";
         if (!formData.role) errors.role = "Please select a role.";
         if (!phoneRegx.test(formData.phone)) errors.phone = "Please enter a valid phone number.";
-        if (!formData.address) errors.address = "Addresss Required.";
+        if (!formData.address) errors.address = "Address Required.";
 
         return errors;
     };
@@ -54,7 +63,7 @@ const Signup = () => {
         });
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         const validationErrors = validate();
@@ -63,8 +72,14 @@ const Signup = () => {
             setErrors(validationErrors);
         } else {
             setErrors({});
-            // Handle the signup logic here, such as sending the formData to an API
-            console.log(formData);
+
+            try {
+                const result = await register(formData).unwrap();
+                console.log(result);
+                setShowSuccess(true);
+            } catch (err) {
+                console.error("Registration failed", err);
+            }
         }
     };
 
@@ -105,7 +120,6 @@ const Signup = () => {
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
-
                                 </div>
                             </div>
 
@@ -182,7 +196,7 @@ const Signup = () => {
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     >
-                                        <option value="" disabled>Select User</option>
+                                        <option value="" disabled>Select Role</option>
                                         <option value="user">User</option>
                                         <option value="admin">Admin</option>
                                     </select>
@@ -214,11 +228,27 @@ const Signup = () => {
 
                             <div>
                                 <button
+                                    disabled={isLoading}
                                     type="submit"
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
-                                    Sign up
+                                    {isLoading ? "Signing up..." : "Sign up"}
                                 </button>
+                                <br />
+                                {showSuccess && (
+                                    <Alert
+                                        title="Registration Successful"
+                                        message="You have successfully registered!"
+                                        isError={false}
+                                        onConfirm={() => navigate('/')}
+                                        onClose={() => setShowSuccess(false)}
+                                        confirmLabel="Go to Home"
+                                        cancelLabel="Close"
+                                    />
+                                )}
+                                {error && (error as { data: { message: string } }).data?.message && (
+                                    <Error error={(error as { data: { message: string } }).data.message} />
+                                )}
                             </div>
                         </form>
                     </div>
