@@ -25,6 +25,8 @@ interface IErrors {
 
 const Signup = () => {
     const [register, { data, isLoading, error }] = useRegisterMutation();
+    console.log(data);
+    
     const [showSuccess, setShowSuccess] = useState(false);
     const navigate = useNavigate();
 

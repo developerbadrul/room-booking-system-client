@@ -16,7 +16,9 @@ interface IUserErrors {
 }
 
 const Login = () => {
-  const [login, { data, isLoading, error }] = useLoginMutation(); // Use login mutation
+  const [login, { data, isLoading, error }] = useLoginMutation(); 
+  console.log(data);
+  
   const [showSuccess, setShowSuccess] = useState(false);
   const navigate = useNavigate();
   const [userData, setUserData] = useState<IUserData>({
