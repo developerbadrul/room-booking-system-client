@@ -11,6 +11,9 @@ import { Link } from 'react-router-dom';
 import Container from './Container';
 import { Logo } from './Logo';
 import { NavLink } from './NavLink';
+import { useAppSelector } from '../../redux/hooks';
+import { selectUser } from '../../redux/features/auth/authSlice';
+import LogoutButton from './Logout';
 
 
 interface MobileNavLinkProps {
@@ -99,6 +102,8 @@ const MobileNavigation: React.FC = () => {
 }
 
 export const Navbar: React.FC = () => {
+    const user = useAppSelector(selectUser);
+    const isLoggedIn = !!user._id;
     return (
         <header className="py-10">
             <Container>
@@ -112,13 +117,20 @@ export const Navbar: React.FC = () => {
                             <NavLink href="/meeting-rooms">Meeting Rooms</NavLink>
                             <NavLink href="/about">About Us</NavLink>
                             <NavLink href="/contact">Contact Us</NavLink>
-                            <NavLink href="/dashboard">Dashboard</NavLink>
+                            {isLoggedIn && <NavLink href="/dashboard">Dashboard</NavLink>}
 
                         </div>
                     </div>
                     <div className="flex items-center gap-x-5 md:gap-x-8">
-                        
-                        <Link className='px-5 py-2 bg-blue-600 text-white hover:text-slate-100 hover:bg-blue-500 active:bg-blue-800 active:text-blue-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 rounded-lg' to="/login">Login</Link>
+
+                        {!isLoggedIn ? (
+                            <Link className="px-5 py-2 bg-blue-600 text-white hover:text-slate-100 hover:bg-blue-500 active:bg-blue-800 active:text-blue-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 rounded-lg" to="/login">Login</Link>
+                        ) : (
+                            <div className="flex items-center">
+                                <span className="mr-4 text-sm font-medium text-gray-900">Welcome, {user.name}!</span>
+                                <LogoutButton/>
+                            </div>
+                        )}
                         <div className="-mr-1 md:hidden">
                             <MobileNavigation />
                         </div>

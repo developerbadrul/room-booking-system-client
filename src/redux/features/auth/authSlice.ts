@@ -32,7 +32,7 @@ export const authSlice = createSlice({
             state.token = action.payload.token;
             state.data = action.payload.data;
         },
-        loggedOutUser: (state) => {
+        loggedOut: (state) => {
             state.token = undefined;
             state.data = {
                 _id: undefined,
@@ -46,6 +46,6 @@ export const authSlice = createSlice({
     }
 });
 
-export const { loggedInUser, loggedOutUser } = authSlice.actions;
-
+export const { loggedInUser, loggedOut } = authSlice.actions;
+export const selectUser = (state: { auth: AuthState }) => state.auth.data;
 export default authSlice.reducer;
