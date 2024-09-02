@@ -7,17 +7,32 @@ const roomApi = baseApi.injectEndpoints({
                 url: '/rooms',
                 method: 'GET',
             }),
-            providesTags: ["rooms"]
+            providesTags: ["rooms"],
         }),
 
         getSingleRoom: builder.query({
-            query: (params) => ({
-                url: `/rooms/${params}`,
+            query: (id) => ({
+                url: `/rooms/${id}`,
                 method: "GET",
-                params: params
-            })
-        })
+            }),
+            // providesTags: (result, error, id) => [{ type: "Room", id }],
+        }),
+
+        createRoom: builder.mutation({
+            query: (data) => ({
+                url: `/rooms`,
+                method: "POST",
+                body: data,
+            }),
+            invalidatesTags: ["rooms"],
+        }),
     }),
 });
 
-export const { useGetAllRoomsQuery, useGetSingleRoomQuery } = roomApi;
+export const {
+    useGetAllRoomsQuery,
+    useGetSingleRoomQuery,
+    useCreateRoomMutation,
+} = roomApi;
+
+export default roomApi;

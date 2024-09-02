@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
-import { useAppSelector } from "../redux/hooks";
-import { selectUser } from "../redux/features/auth/authSlice";
+import { ReactNode, useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { selectUser, selectLoading, rehydrateUser } from "../redux/features/auth/authSlice";
 import { Navigate } from "react-router-dom";
 import Loading from "../components/UI/Loading";
 
@@ -9,11 +9,20 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
-    const { data, loading } = useAppSelector(selectUser);
+    const dispatch = useAppDispatch();
+    const data = useAppSelector(selectUser);
+    const loading = useAppSelector(selectLoading);
+
+    useEffect(() => {
+        dispatch(rehydrateUser());
+    }, [dispatch]);
+
     const isLoggedIn = !!data._id;
 
+    console.log(isLoggedIn, "isLoggedIn");
+
     if (loading) {
-        return <Loading/>
+        return <Loading />;
     }
 
     return isLoggedIn ? <>{children}</> : <Navigate to="/login" />;

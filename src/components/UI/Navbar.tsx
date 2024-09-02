@@ -102,7 +102,7 @@ const MobileNavigation: React.FC = () => {
 }
 
 export const Navbar: React.FC = () => {
-    const { data } = useAppSelector(selectUser);
+    const data = useAppSelector(selectUser);
     const isLoggedIn = !!data.name;
     return (
         <header className="py-10">

@@ -1,7 +1,7 @@
-const adminRoutes = [
+const dashboardRoutes = [
     {
         index: true,
-        path: "/admin",
+        path: "admin",
         element: <h1>Admin Home</h1>
     },
     {
@@ -18,4 +18,4 @@ const adminRoutes = [
     },
 ]
 
-export default adminRoutes;
+export default dashboardRoutes;

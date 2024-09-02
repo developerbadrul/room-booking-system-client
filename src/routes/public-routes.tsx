@@ -3,7 +3,6 @@ import AllMeetingRooms from "../Pages/AllMeetingRooms";
 import Contact from "../Pages/Contact";
 import Home from "../Pages/Home";
 import MeetingRoom from "../Pages/MeetingRoom";
-import PrivateRoute from "./PrivateRoute";
 
 const publicRoutes = [
     {
@@ -26,10 +25,6 @@ const publicRoutes = [
     {
         path: "meeting-rooms",
         element: <AllMeetingRooms />
-    },
-    {
-        path: "dashboard",
-        element: <PrivateRoute><AllMeetingRooms /></PrivateRoute>
     },
 ]
 

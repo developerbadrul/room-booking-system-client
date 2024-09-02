@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../store";
 
 interface AuthState {
     token?: string;
@@ -24,7 +25,7 @@ const initialState: AuthState = {
         address: undefined,
     },
     loading: true,
-}
+};
 
 export const authSlice = createSlice({
     name: "auth",
@@ -34,6 +35,9 @@ export const authSlice = createSlice({
             state.token = action.payload.token;
             state.data = action.payload.data;
             state.loading = false;
+            // Persist token in localStorage
+            localStorage.setItem("token", action.payload.token);
+            localStorage.setItem("userData", JSON.stringify(action.payload.data));
         },
         loggedOut: (state) => {
             state.token = undefined;
@@ -46,13 +50,29 @@ export const authSlice = createSlice({
                 address: undefined,
             };
             state.loading = false;
+            // Remove token from localStorage
+            localStorage.removeItem("token");
+            localStorage.removeItem("userData");
         },
         setLoading: (state, action) => {
             state.loading = action.payload;
+        },
+        rehydrateUser: (state) => {
+            const token = localStorage.getItem("token");
+            const userData = localStorage.getItem("userData");
+            if (token && userData) {
+                state.token = token;
+                state.data = JSON.parse(userData);
+                state.loading = false;
+            } else {
+                state.loading = false;
+            }
         }
     }
 });
 
-export const { loggedInUser, loggedOut, setLoading } = authSlice.actions;
-export const selectUser = (state: { auth: AuthState }) => state.auth;
+export const { loggedInUser, loggedOut, setLoading, rehydrateUser } = authSlice.actions;
+export const selectUser = (state: RootState) => state.auth.data;
+export const selectLoading = (state: RootState) => state.auth.loading;
+
 export default authSlice.reducer;
