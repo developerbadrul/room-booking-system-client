@@ -4,7 +4,9 @@ import useAuthCheck from "./hooks/useAuthCheck";
 function App() {
   useAuthCheck();
   return (
-    <MainLayout />
+    <>
+    <MainLayout/>
+    </>
   )
 }
 

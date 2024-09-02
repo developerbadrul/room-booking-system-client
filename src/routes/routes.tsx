@@ -5,8 +5,8 @@ import Signup from "../Pages/Signup";
 import ErrorPage from "../Pages/ErrorPage";
 import publicRoutes from "./public-routes";
 import PrivateRoute from "./PrivateRoute";
-import Dashboard from "../components/Layouts/DashboardLAyout";
 import dashboardRoutes from "./dashboard-routes";
+import Dashboard from "../components/Layouts/DashboardLayout";
 
 const router = createBrowserRouter([
     {

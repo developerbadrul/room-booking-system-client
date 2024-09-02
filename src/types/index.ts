@@ -12,4 +12,5 @@ export interface IRoom {
     updatedAt: string;
     __v: number;
     rating?: number;
+    imageUrl?: string;
 }

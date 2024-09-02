@@ -1,64 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from 'react'
+import { Fragment, useState } from 'react';
 import {
     Dialog,
     DialogPanel,
     Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
     Transition,
     TransitionChild,
-} from '@headlessui/react'
+} from '@headlessui/react';
 import {
     Bars3Icon,
-    BellIcon,
-    CalendarIcon,
-    ChartPieIcon,
     Cog6ToothIcon,
-    DocumentDuplicateIcon,
-    FolderIcon,
-    HomeIcon,
-    UsersIcon,
-    XMarkIcon,
-} from '@heroicons/react/24/outline'
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { Outlet } from 'react-router-dom'
+} from '@heroicons/react/24/outline';
+import { Outlet, Link, useLocation } from 'react-router-dom';
+import dashboardRoutes from '../../routes/dashboard-routes';
+import LogoutButton from '../UI/Logout';
 
-const navigation = [
-    { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-    { name: 'Team', href: '#', icon: UsersIcon, current: false },
-    { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-    { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-    { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-    { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
-]
-const teams = [
-    { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-    { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-    { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
-]
-const userNavigation = [
-    { name: 'Your profile', href: '#' },
-    { name: 'Sign out', href: '#' },
-]
 
 function classNames(...classes: any[]) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
 }
 
 export default function Dashboard() {
-    const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const location = useLocation();
+
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
             <div>
                 <Transition show={sidebarOpen}>
                     <Dialog className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
@@ -83,24 +50,9 @@ export default function Dashboard() {
                                 leaveTo="-translate-x-full"
                             >
                                 <DialogPanel className="relative mr-16 flex w-full max-w-xs flex-1">
-                                    <TransitionChild
-                                        enter="ease-in-out duration-300"
-                                        enterFrom="opacity-0"
-                                        enterTo="opacity-100"
-                                        leave="ease-in-out duration-300"
-                                        leaveFrom="opacity-100"
-                                        leaveTo="opacity-0"
-                                    >
-                                        <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
-                                            <button type="button" className="-m-2.5 p-2.5" onClick={() => setSidebarOpen(false)}>
-                                                <span className="sr-only">Close sidebar</span>
-                                                <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                                            </button>
-                                        </div>
-                                    </TransitionChild>
-                                    {/* Sidebar component, swap this element with another sidebar if you like */}
                                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
                                         <div className="flex h-16 shrink-0 items-center">
+                                            {/* // logo  */}
                                             <img
                                                 className="h-8 w-auto"
                                                 src="https://tailwindui.com/img/logos/mark.svg?color=white"
@@ -111,49 +63,26 @@ export default function Dashboard() {
                                             <ul role="list" className="flex flex-1 flex-col gap-y-7">
                                                 <li>
                                                     <ul role="list" className="-mx-2 space-y-1">
-                                                        {navigation.map((item) => (
-                                                            <li key={item.name}>
-                                                                <a
-                                                                    href={item.href}
+                                                        {dashboardRoutes.map((route) => (
+                                                            <li key={route.name}>
+                                                                <Link
+                                                                    to={route.path}
                                                                     className={classNames(
-                                                                        item.current
+                                                                        route.current
                                                                             ? 'bg-indigo-700 text-white'
                                                                             : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
                                                                         'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                                                     )}
                                                                 >
-                                                                    <item.icon
+                                                                    <route.icon
                                                                         className={classNames(
-                                                                            item.current ? 'text-white' : 'text-indigo-200 group-hover:text-white',
+                                                                            route.current ? 'text-white' : 'text-indigo-200 group-hover:text-white',
                                                                             'h-6 w-6 shrink-0'
                                                                         )}
                                                                         aria-hidden="true"
                                                                     />
-                                                                    {item.name}
-                                                                </a>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <div className="text-xs font-semibold leading-6 text-indigo-200">Your teams</div>
-                                                    <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                                        {teams.map((team) => (
-                                                            <li key={team.name}>
-                                                                <a
-                                                                    href={team.href}
-                                                                    className={classNames(
-                                                                        team.current
-                                                                            ? 'bg-indigo-700 text-white'
-                                                                            : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
-                                                                        'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                                                    )}
-                                                                >
-                                                                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                                                                        {team.initial}
-                                                                    </span>
-                                                                    <span className="truncate">{team.name}</span>
-                                                                </a>
+                                                                    {route.name}
+                                                                </Link>
                                                             </li>
                                                         ))}
                                                     </ul>
@@ -179,9 +108,9 @@ export default function Dashboard() {
                     </Dialog>
                 </Transition>
 
-                {/* Static sidebar for desktop */}
+               
+
                 <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-                    {/* Sidebar component, swap this element with another sidebar if you like */}
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
                         <div className="flex h-16 shrink-0 items-center">
                             <img
@@ -192,56 +121,29 @@ export default function Dashboard() {
                         </div>
                         <nav className="flex flex-1 flex-col">
                             <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                                <li>
-                                    <ul role="list" className="-mx-2 space-y-1">
-                                        {navigation.map((item) => (
-                                            <li key={item.name}>
-                                                <a
-                                                    href={item.href}
-                                                    className={classNames(
-                                                        item.current
-                                                            ? 'bg-indigo-700 text-white'
-                                                            : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
-                                                        'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                                    )}
-                                                >
-                                                    <item.icon
-                                                        className={classNames(
-                                                            item.current ? 'text-white' : 'text-indigo-200 group-hover:text-white',
-                                                            'h-6 w-6 shrink-0'
-                                                        )}
-                                                        aria-hidden="true"
-                                                    />
-                                                    {item.name}
-                                                </a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
-                                <li>
-                                    <div className="text-xs font-semibold leading-6 text-indigo-200">Your teams</div>
-                                    <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                        {teams.map((team) => (
-                                            <li key={team.name}>
-                                                <a
-                                                    href={team.href}
-                                                    className={classNames(
-                                                        team.current
-                                                            ? 'bg-indigo-700 text-white'
-                                                            : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
-                                                        'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                                    )}
-                                                >
-                                                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                                                        {team.initial}
-                                                    </span>
-                                                    <span className="truncate">{team.name}</span>
-                                                </a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
-                                <li className="mt-auto">
+                                {dashboardRoutes.map((route) => (
+                                    <li key={route.name}>
+                                        <Link
+                                            to={route.path}
+                                            className={classNames(
+                                                location.pathname === route.path
+                                                    ? 'bg-indigo-700 text-white'
+                                                    : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
+                                                'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                            )}
+                                        >
+                                            <route.icon
+                                                className={classNames(
+                                                    location.pathname === route.path ? 'text-white' : 'text-indigo-200 group-hover:text-white',
+                                                    'h-6 w-6 shrink-0'
+                                                )}
+                                                aria-hidden="true"
+                                            />
+                                            {route.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                                {/* <li className="mt-auto">
                                     <a
                                         href="#"
                                         className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
@@ -252,7 +154,7 @@ export default function Dashboard() {
                                         />
                                         Settings
                                     </a>
-                                </li>
+                                </li> */}
                             </ul>
                         </nav>
                     </div>
@@ -265,12 +167,11 @@ export default function Dashboard() {
                             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                         </button>
 
-                        {/* Separator */}
                         <div className="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true" />
 
                         <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                            <form className="relative flex flex-1" action="#" method="GET">
-                                <label htmlFor="search-field" className="sr-only">
+                            <div className="relative flex flex-1">
+                                {/* <label htmlFor="search-field" className="sr-only">
                                     Search
                                 </label>
                                 <MagnifyingGlassIcon
@@ -283,34 +184,36 @@ export default function Dashboard() {
                                     placeholder="Search..."
                                     type="search"
                                     name="search"
-                                />
-                            </form>
+                                /> */}
+                            </div>
                             <div className="flex items-center gap-x-4 lg:gap-x-6">
-                                <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
+                                {/* <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
                                     <span className="sr-only">View notifications</span>
                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                </button>
+                                </button> */}
 
-                                {/* Separator */}
                                 <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
 
-                                {/* Profile dropdown */}
                                 <Menu as="div" className="relative">
-                                    <MenuButton className="-m-1.5 flex items-center p-1.5">
+                                    <Menu.Button className="-m-1.5 flex items-center p-1.5">
                                         <span className="sr-only">Open user menu</span>
                                         <img
                                             className="h-8 w-8 rounded-full bg-gray-50"
-                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=128&q=80"
                                             alt=""
                                         />
                                         <span className="hidden lg:flex lg:items-center">
                                             <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
                                                 Tom Cook
                                             </span>
-                                            <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                            {/* <ChevronDownIcon
+                                                className="ml-2 h-5 w-5 text-gray-400"
+                                                aria-hidden="true"
+                                            /> */}
                                         </span>
-                                    </MenuButton>
+                                    </Menu.Button>
                                     <Transition
+                                        as={Fragment}
                                         enter="transition ease-out duration-100"
                                         enterFrom="transform opacity-0 scale-95"
                                         enterTo="transform opacity-100 scale-100"
@@ -318,34 +221,25 @@ export default function Dashboard() {
                                         leaveFrom="transform opacity-100 scale-100"
                                         leaveTo="transform opacity-0 scale-95"
                                     >
-                                        <MenuItems className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                                            {userNavigation.map((item) => (
-                                                <MenuItem key={item.name}>
-                                                    {({ focus }) => (
-                                                        <a
-                                                            href={item.href}
-                                                            className={classNames(
-                                                                focus ? 'bg-gray-50' : '',
-                                                                'block px-3 py-1 text-sm leading-6 text-gray-900'
-                                                            )}
-                                                        >
-                                                            {item.name}
-                                                        </a>
-                                                    )}
-                                                </MenuItem>
-                                            ))}
-                                        </MenuItems>
+                                        <Menu.Items className="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                                            <div className="py-1">
+                                                
+                                                {/* <Menu.Item>
+                                                </Menu.Item> */}
+                                            </div>
+                                        </Menu.Items>
                                     </Transition>
                                 </Menu>
+                                <LogoutButton />
                             </div>
                         </div>
                     </div>
 
-                    <main className="py-10">
-                        <div className="px-4 sm:px-6 lg:px-8"><Outlet/></div>
+                    <main className="p-10">
+                        <Outlet />
                     </main>
                 </div>
             </div>
         </>
-    )
+    );
 }

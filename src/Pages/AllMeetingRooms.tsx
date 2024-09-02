@@ -4,7 +4,7 @@ import { useGetAllRoomsQuery } from "../redux/features/room/roomApi";
 import { IRoom } from "../types";
 
 const AllMeetingRooms = () => {
-    const { data: response, error, isLoading } = useGetAllRoomsQuery({});
+    const { data: response, error, isLoading } = useGetAllRoomsQuery();
 
     if (isLoading) return <div className="flex items-center justify-center"><Loading /></div>;
 

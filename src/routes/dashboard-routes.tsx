@@ -1,21 +1,37 @@
+import { HomeIcon, FolderIcon } from '@heroicons/react/24/outline';
+import UserData from '../components/UI/dashboard/UserData';
+import RoomManagement from '../components/UI/dashboard/Room Management';
+
 const dashboardRoutes = [
     {
         index: true,
-        path: "admin",
-        element: <h1>Admin Home</h1>
+        path: "",
+        name: "Dashboard",
+        icon: HomeIcon,
+        element: <UserData/>,
+        current: true,
     },
     {
         path: "room-management",
-        element: <h1>Room Management</h1>
+        name: "Room Management",
+        icon: FolderIcon,
+        element: <RoomManagement/>,
+        current: false,
     },
     {
         path: "slots-management",
-        element: <h1>Slots Management</h1>
+        name: "Slots Management",
+        icon: FolderIcon,
+        element: <h1>Slots Management</h1>,
+        current: false,
     },
     {
         path: "booking-management",
-        element: <h1>Booking Management</h1>
+        name: "Booking Management",
+        icon: FolderIcon,
+        element: <h1>Booking Management</h1>,
+        current: false,
     },
-]
+];
 
 export default dashboardRoutes;
