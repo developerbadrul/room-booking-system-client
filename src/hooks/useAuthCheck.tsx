@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../redux/hooks";
-import { loggedInUser } from "../redux/features/auth/authSlice";
+import { loggedInUser, setLoading } from "../redux/features/auth/authSlice";
 
 const useAuthCheck = () => {
     const dispatch = useAppDispatch();
@@ -11,13 +11,14 @@ const useAuthCheck = () => {
         if (localAuth) {
             const auth = JSON.parse(localAuth);
             if (auth.token && auth.user) {
-                dispatch(loggedInUser({
-                    token: auth.token,
-                    data: auth.user
-                }));
+                dispatch(loggedInUser({ token: auth.token, data: auth.user }));
+            } else {
+                dispatch(setLoading(false));
             }
+        } else {
+            dispatch(setLoading(false));
         }
-    }, [dispatch]); 
+    }, [dispatch]);
 };
 
 export default useAuthCheck;

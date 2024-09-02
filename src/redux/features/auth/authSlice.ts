@@ -10,6 +10,7 @@ interface AuthState {
         role?: string;
         address?: string;
     };
+    loading: boolean;
 }
 
 const initialState: AuthState = {
@@ -21,7 +22,8 @@ const initialState: AuthState = {
         phone: undefined,
         role: undefined,
         address: undefined,
-    }
+    },
+    loading: true,
 }
 
 export const authSlice = createSlice({
@@ -31,6 +33,7 @@ export const authSlice = createSlice({
         loggedInUser: (state, action) => {
             state.token = action.payload.token;
             state.data = action.payload.data;
+            state.loading = false;
         },
         loggedOut: (state) => {
             state.token = undefined;
@@ -42,10 +45,14 @@ export const authSlice = createSlice({
                 role: undefined,
                 address: undefined,
             };
+            state.loading = false;
         },
+        setLoading: (state, action) => {
+            state.loading = action.payload;
+        }
     }
 });
 
-export const { loggedInUser, loggedOut } = authSlice.actions;
-export const selectUser = (state: { auth: AuthState }) => state.auth.data;
+export const { loggedInUser, loggedOut, setLoading } = authSlice.actions;
+export const selectUser = (state: { auth: AuthState }) => state.auth;
 export default authSlice.reducer;

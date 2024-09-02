@@ -10,6 +10,7 @@ import ErrorPage from "../Pages/ErrorPage";
 import publicRoutes from "./public-routes";
 import AdminLayout from "../components/Layouts/AdminLayout";
 import adminRoutes from "./admin-routes";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/admin",
-        element: <AdminLayout />,
+        element: <PrivateRoute><AdminLayout /></PrivateRoute>,
         children: adminRoutes
     },
     {
