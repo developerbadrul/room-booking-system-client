@@ -1,6 +1,7 @@
 import { HomeIcon, FolderIcon } from '@heroicons/react/24/outline';
 import UserData from '../components/UI/dashboard/UserData';
 import RoomManagement from '../components/UI/dashboard/Room Management';
+import SlotManagment from '../components/UI/dashboard/SlotManagment';
 
 const dashboardRoutes = [
     {
@@ -22,7 +23,7 @@ const dashboardRoutes = [
         path: "slots-management",
         name: "Slots Management",
         icon: FolderIcon,
-        element: <h1>Slots Management</h1>,
+        element: <SlotManagment/>,
         current: false,
     },
     {
